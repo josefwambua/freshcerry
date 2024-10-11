@@ -2,8 +2,17 @@
 <?php require "../config/config.php"?>
 
 
-
 <?php
+
+if(isset($_SESSION['username'])) {
+    
+    echo "<script>window.location.href='".APPURL."';</script>";
+
+
+}
+
+
+
 
 // checking if the fields are empty
 if (isset($_POST['submit'])) {

@@ -1,4 +1,6 @@
+
 <?php 
+session_start();
 define("APPURL", "http://127.0.0.1/freshcerry");
 
 
@@ -29,7 +31,7 @@ define("APPURL", "http://127.0.0.1/freshcerry");
         <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-transparent" id="page-navigation">
             <div class="container">
                 <!-- Navbar Brand -->
-                <a href="index.html" class="navbar-brand">
+                <a href="index.php" class="navbar-brand">
                     <img src="<?php echo APPURL?>/assets/img/logo/logo.png" alt="">
                 </a>
 
@@ -42,29 +44,37 @@ define("APPURL", "http://127.0.0.1/freshcerry");
                     <!-- Navbar Menu -->
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a href="shop.html" class="nav-link">Shop</a>
+                            <a href="<?php echo APPURL ?>/shop.php" class="nav-link">Shop</a>
+                        </li>
+                    <ul class="navbar-nav ml-auto">
+                    <a href="<?php echo APPURL ?>/faq.php" class="nav-link">FAQ</a>
+                    </ul>
+                        <?php if(!isset($_SESSION['username'])) : ?>
+                        <li class="nav-item">
+                            <a href="auth/register.php" class="nav-link">Register</a>
                         </li>
                         <li class="nav-item">
-                            <a href="register.html" class="nav-link">Register</a>
+                            <a href="auth/login.php" class="nav-link">Login</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="login.html" class="nav-link">Login</a>
-                        </li>
+                        <?php else: ?>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <div class="avatar-header"><img src="<?php echo APPURL?>/assets/img/logo/avatar.jpg"></div> John Doe
+                                <div class="avatar-header"><img src="<?php echo APPURL?>/assets/img/logo/avatar.jpg"></div><?php echo $_SESSION['username']?>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="transaction.html">Transactions History</a>
-                                <a class="dropdown-item" href="setting.html">Settings</a>
+                                <a class="dropdown-item" href="<?php echo APPURL ?>/transaction.php">Transactions History</a>
+                                <a class="dropdown-item" href="<?php echo APPURL?>/setting.php">Settings</a>
+                                <a class="dropdown-item" href="<?php echo APPURL?>/auth/logout.php">Logout</a>
+
                             </div>
                           </li>
                         <li class="nav-item">
-                            <a href="cart.html" class="nav-link" data-toggle="" aria-haspopup="true" aria-expanded="false">
+                            <a href="<?php echo APPURL ?>/cart.php" class="nav-link" data-toggle="" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-shopping-basket"></i> <span class="badge badge-primary">5</span>
                             </a>
                           
                         </li>
+                        <?php endif ?>
                     </ul>
                 </div>
 

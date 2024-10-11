@@ -1,3 +1,6 @@
+
+
+
 <?php
 require "../includes/header.php"?>
 <?php require "../config/config.php"?>
@@ -7,7 +10,9 @@ require "../includes/header.php"?>
 <?php
 
 if(isset($_SESSION['username'])) {
-    header("location:".APPURL."/login.php");
+    
+    echo "<script>window.location.href='".APPURL."';</script>";
+
 
 }
 
@@ -37,8 +42,11 @@ if(isset($_POST['submit'])) {
 
             $_SESSION['username'] = $fetch['username'];
             $_SESSION['email'] = $fetch['email'];
+            $_SESSION['user_id'] = $fetch['id'];
+            $_SESSION['image'] = $fetch['image'];
 
-            echo "<script>window.locations.APPURL.';</script>";
+
+            echo "<script>window.location.href='".APPURL."';</script>";
             
           } else {
             echo "email or password is wrong";
