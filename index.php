@@ -1,4 +1,13 @@
 <?php require "includes/header.php"; ?>
+<?php require "config/config.php"; ?>
+
+
+<?php 
+// fetching categories from the database
+$categories = $conn->query("SELECT * FROM categories");
+$categories->execute();
+$allcategories=$categories->fetchAll(PDO::FETCH_OBJ);
+?>
 <div id="page-content" class="page-content">
         <div class="banner">
             <div class="jumbotron jumbotron-video text-center bg-dark mb-0 rounded-0">
@@ -142,60 +151,18 @@
         <section id="categories" class="pb-0 gray-bg">
             <h2 class="title">Categories</h2>
             <div class="landing-categories owl-carousel">
+            <?php foreach($allcategories as $category): ?>
+
                 <div class="item">
                     <div class="card rounded-0 border-0 text-center">
-                        <img src="assets/img/vegetables.jpg">
+                        <img src="assets/img/<?php echo $category->image ?>">
                         <div class="card-img-overlay d-flex align-items-center justify-content-center">
                             <!-- <h4 class="card-title">Vegetables</h4> -->
-                            <a href="shop.php" class="btn btn-primary btn-lg">Vegetables</a>
+                            <a href="shop.php" class="btn btn-primary btn-lg"><?php echo $category->name; ?></a>
                         </div>
                     </div>
                 </div>
-                <div class="item">
-                    <div class="card rounded-0 border-0 text-center">
-                        <img src="assets/img/fruits.jpg">
-                        <div class="card-img-overlay d-flex align-items-center justify-content-center">
-                            <!-- <h4 class="card-title">Fruits</h4> -->
-                            <a href="shop.php" class="btn btn-primary btn-lg">Fruits</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="card rounded-0 border-0 text-center">
-                        <img src="assets/img/meats.jpg">
-                        <div class="card-img-overlay d-flex align-items-center justify-content-center">
-                            <!-- <h4 class="card-title">Meats</h4> -->
-                            <a href="shop.php" class="btn btn-primary btn-lg">Meats</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="card rounded-0 border-0 text-center">
-                        <img src="assets/img/fish.jpg">
-                        <div class="card-img-overlay d-flex align-items-center justify-content-center">
-                            <!-- <h4 class="card-title">Fishes</h4> -->
-                            <a href="shop.php" class="btn btn-primary btn-lg">Fishes</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="card rounded-0 border-0 text-center">
-                        <img src="assets/img/frozen.jpg">
-                        <div class="card-img-overlay d-flex align-items-center justify-content-center">
-                            <!-- <h4 class="card-title">Frozen Foods</h4> -->
-                            <a href="shop.php" class="btn btn-primary btn-lg">Frozen Foods</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="card rounded-0 border-0 text-center">
-                        <img src="assets/img/package.jpg">
-                        <div class="card-img-overlay d-flex align-items-center justify-content-center">
-                            <!-- <h4 class="card-title">Package</h4> -->
-                            <a href="shop.php" class="btn btn-primary btn-lg">Package</a>
-                        </div>
-                    </div>
-                </div>
+                <?php endforeach; ?>
             </div>
         </section>
     </div>

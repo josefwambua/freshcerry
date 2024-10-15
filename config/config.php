@@ -1,11 +1,11 @@
 <?php 
 
-    if(!isset($_SERVER['HTTP_REFERER'])){
-    //     // redirect to the cart
+//     if(!isset($_SERVER['HTTP_REFERER'])){
+//     //     // redirect to the cart
 
-         header('location:127.0.0.1/freshcerry/index.php');
-         exit;
-    }
+//          header('location:127.0.0.1/freshcerry/index.php');
+//          exit;
+//     }
 
     try{
     // host 
