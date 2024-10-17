@@ -24,10 +24,15 @@ $meat=$conn->prepare("SELECT * FROM products WHERE status=1 AND category_id = 2"
 $meat->execute();
 $AllMeat=$meat->fetchAll(PDO::FETCH_OBJ);
 
-
+// fish
 $fishes=$conn->prepare("SELECT * FROM products WHERE status=1 AND category_id = 5");
 $fishes->execute();
 $AllFishes=$fishes->fetchAll(PDO::FETCH_OBJ);
+ 
+// Fruits
+$fruits=$conn->prepare("SELECT * FROM products WHERE status=1 AND category_id = 6");
+$fruits->execute();
+$AllFruits=$fruits->fetchAll(PDO::FETCH_OBJ);
 ?>
     <div id="page-content" class="page-content">
         <div class="banner">
@@ -190,7 +195,7 @@ $AllFishes=$fishes->fetchAll(PDO::FETCH_OBJ);
                                         </h4>
                                         <div class="card-price">
                                             <!-- <span class="discount">Rp. 300.000</span> -->
-                                            <span class="reguler"><?php echo $item->Price ?></span>
+                                            <span class="reguler">$ <?php echo $item->Price ?></span>
                                         </div>
                                         <a href="detail-product.php" class="btn btn-block btn-primary">
                                             Add to Cart
@@ -212,7 +217,7 @@ $AllFishes=$fishes->fetchAll(PDO::FETCH_OBJ);
                     <div class="col-md-12">
                         <h2 class="title">Fishes</h2>
                         <div class="product-carousel owl-carousel">
-                            
+                            <?php foreach($AllFishes as $fish) : ?>
                             <div class="item">
                                 <div class="card card-product">
                                     <div class="card-ribbon">
@@ -223,21 +228,21 @@ $AllFishes=$fishes->fetchAll(PDO::FETCH_OBJ);
                                     <div class="card-badge">
                                         <div class="card-badge-container left">
                                             <span class="badge badge-default">
-                                                Until 2018
+                                                Until <?php echo $fish->exp_date ?>
                                             </span>
                                             <span class="badge badge-primary">
                                                 20% OFF
                                             </span>
                                         </div>
-                                        <img src="assets/img/meat.jpg" alt="Card image 2" class="card-img-top">
+                                        <img src="assets/img/<?php echo $fish->image?>" alt="Card image 2" class="card-img-top">
                                     </div>
                                     <div class="card-body">
                                         <h4 class="card-title">
-                                            <a href="detail-product.php">Product Title</a>
+                                            <a href="detail-product.php"><?php echo $fish->Title ?></a>
                                         </h4>
                                         <div class="card-price">
-                                            <span class="discount">Rp. 300.000</span>
-                                            <span class="reguler">Rp. 200.000</span>
+                                            <!-- <span class="discount">Rp. 300.000</span> -->
+                                            <span class="reguler">$ <?php echo $fish->Price ?></span>
                                         </div>
                                         <a href="detail-product.php" class="btn btn-block btn-primary">
                                             Add to Cart
@@ -246,6 +251,7 @@ $AllFishes=$fishes->fetchAll(PDO::FETCH_OBJ);
                                     </div>
                                 </div>
                             </div>
+                            <?php endforeach ?>
                         </div>
                     </div>
                 </div>
@@ -258,6 +264,7 @@ $AllFishes=$fishes->fetchAll(PDO::FETCH_OBJ);
                     <div class="col-md-12">
                         <h2 class="title">Fruits</h2>
                         <div class="product-carousel owl-carousel">
+                            <?php foreach($AllFruits as $fruit) : ?>
                             <div class="item">
                                 <div class="card card-product">
                                     <div class="card-ribbon">
@@ -268,21 +275,21 @@ $AllFishes=$fishes->fetchAll(PDO::FETCH_OBJ);
                                     <div class="card-badge">
                                         <div class="card-badge-container left">
                                             <span class="badge badge-default">
-                                                Until 2018
+                                                Until <?php echo $fruit->exp_date ?>
                                             </span>
                                             <span class="badge badge-primary">
                                                 20% OFF
                                             </span>
                                         </div>
-                                        <img src="assets/img/meat.jpg" alt="Card image 2" class="card-img-top">
+                                        <img src="assets/img/<?php echo $fruit->image; ?>" alt="Card image 2" class="card-img-top">
                                     </div>
                                     <div class="card-body">
                                         <h4 class="card-title">
-                                            <a href="detail-product.php">Product Title</a>
+                                            <a href="detail-product.php"><?php echo $fruit->Title ?></a>
                                         </h4>
                                         <div class="card-price">
-                                            <span class="discount">Rp. 300.000</span>
-                                            <span class="reguler">Rp. 200.000</span>
+                                            <!-- <span class="discount">Rp. 300.000</span> -->
+                                            <span class="reguler">$ <?php echo $fruit->Price ?></span>
                                         </div>
                                         <a href="detail-product.php" class="btn btn-block btn-primary">
                                             Add to Cart
@@ -291,6 +298,7 @@ $AllFishes=$fishes->fetchAll(PDO::FETCH_OBJ);
                                     </div>
                                 </div>
                             </div>
+                            <?php endforeach ?>
                         </div>
                     </div>
                 </div>
