@@ -103,7 +103,9 @@ $AllFruits=$fruits->fetchAll(PDO::FETCH_OBJ);
                                             <!-- <span class="discount">Rp. 300.000</span> -->
                                             <span class="reguler">$ <?php echo $mostWantedProduct->Price;?></span>
                                         </div>
-                                        <a href="detail-product.php" class="btn btn-block btn-primary">
+                                        <!-- <a href="detail-product.php" class="btn btn-block btn-primary"> -->
+                                        <a href="<?php echo APPURL;?>/products/detail-product.php?id=<?php echo $mostWantedProduct->id ?>" class="btn btn-block btn-primary">
+
                                             Add to Cart
                                         </a>
                                     </div>
@@ -150,7 +152,7 @@ $AllFruits=$fruits->fetchAll(PDO::FETCH_OBJ);
                                             <!-- <span class="discount">Rp. 300.000</span> -->
                                             <span class="reguler">$ <?php echo $vegie->Price ?></span>
                                         </div>
-                                        <a href="detail-product.php" class="btn btn-block btn-primary">
+                                        <a href="<?php echo APPURL;?>/products/detail-product.php?id=<?php echo $vegie->id ?>" class="btn btn-block btn-primary">
                                             Add to Cart
                                         </a>
 
@@ -197,7 +199,9 @@ $AllFruits=$fruits->fetchAll(PDO::FETCH_OBJ);
                                             <!-- <span class="discount">Rp. 300.000</span> -->
                                             <span class="reguler">$ <?php echo $item->Price ?></span>
                                         </div>
-                                        <a href="detail-product.php" class="btn btn-block btn-primary">
+                                        <!-- <a href="detail-product.php" class="btn btn-block btn-primary"> -->
+                                        <a href="<?php echo APPURL;?>/products/detail-product.php?id=<?php echo $item->id ?>" class="btn btn-block btn-primary">
+
                                             Add to Cart
                                         </a>
 
@@ -244,7 +248,9 @@ $AllFruits=$fruits->fetchAll(PDO::FETCH_OBJ);
                                             <!-- <span class="discount">Rp. 300.000</span> -->
                                             <span class="reguler">$ <?php echo $fish->Price ?></span>
                                         </div>
-                                        <a href="detail-product.php" class="btn btn-block btn-primary">
+                                        <!-- <a href="detail-product.php" class="btn btn-block btn-primary"> -->
+                                        <a href="<?php echo APPURL;?>/products/detail-product.php?id=<?php echo $fish->id ?>" class="btn btn-block btn-primary">
+
                                             Add to Cart
                                         </a>
 
@@ -291,7 +297,9 @@ $AllFruits=$fruits->fetchAll(PDO::FETCH_OBJ);
                                             <!-- <span class="discount">Rp. 300.000</span> -->
                                             <span class="reguler">$ <?php echo $fruit->Price ?></span>
                                         </div>
-                                        <a href="detail-product.php" class="btn btn-block btn-primary">
+                                        <!-- <a href="detail-product.php" class="btn btn-block btn-primary"> -->
+                                        <a href="<?php echo APPURL;?>/products/detail-product.php?id=<?php echo $fruit->id ?>" class="btn btn-block btn-primary">
+
                                             Add to Cart
                                         </a>
 
