@@ -17,7 +17,7 @@ if(isset($_GET['id'])){
     $relatedProducts->execute();
 
     $allRelatedProducts = $relatedProducts->fetchAll(PDO::FETCH_OBJ);
-    var_dump($allRelatedProducts);
+    // var_dump($allRelatedProducts);
 
 }else{
 
@@ -68,7 +68,7 @@ if(isset($_GET['id'])){
                         </p>
                         <div class="row">
                             <div class="col-sm-5">
-                                <input class="form-control" type="number" min="1" data-bts-button-down-class="btn btn-primary" data-bts-button-up-class="btn btn-primary" value="1" name="vertical-spin">
+                                <input class="form-control" type="number" min="1" data-bts-button-down-class="btn btn-primary" data-bts-button-up-class="btn btn-primary" value="<?php echo $product->quantity ?> " name="vertical-spin">
                             </div>
                             <div class="col-sm-6"><span class="pt-1 d-inline-block">Pack  (1000 grams)</span></div>
                         </div>
@@ -104,17 +104,17 @@ if(isset($_GET['id'])){
                                                 20% OFF
                                             </span>
                                         </div>
-                                        <img src="..assets/img/<?php echo $prodcts->image ?>" alt="Card image 2" class="card-img-top">
+                                        <img src="../assets/img/<?php echo $prodcts->image ?>" alt="Card image 2" class="card-img-top">
                                     </div>
                                     <div class="card-body">
                                         <h4 class="card-title">
-                                            <a href="detail-product.html">Product Title</a>
+                                            <a href="detail-product.php"><?php echo $prodcts->Title ?></a>
                                         </h4>
                                         <div class="card-price">
                                             <!-- <span class="discount">Rp. 300.000</span> -->
-                                            <span class="reguler"><?php echo  $prodcts -> Price ?></span>
+                                            <span class="reguler">$ <?php echo  $prodcts -> Price ?></span>
                                         </div>
-                                        <a href="detail-product.html" class="btn btn-block btn-primary">
+                                        <a href="<?php echo APPURL;?>/products/detail-product.php?id=<?php echo $prodcts->id;?> " class="btn btn-block btn-primary">
                                             Add to Cart
                                         </a>
 

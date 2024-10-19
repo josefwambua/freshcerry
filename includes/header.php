@@ -31,7 +31,7 @@ define("APPURL", "http://127.0.0.1/freshcerry");
         <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-transparent" id="page-navigation">
             <div class="container">
                 <!-- Navbar Brand -->
-                <a href="index.php" class="navbar-brand">
+                <a href="<?php echo APPURL; ?>" class="navbar-brand">
                     <img src="<?php echo APPURL?>/assets/img/logo/logo.png" alt="">
                 </a>
 
