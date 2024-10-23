@@ -69,7 +69,7 @@ define("APPURL", "http://127.0.0.1/freshcerry");
                             </div>
                           </li>
                         <li class="nav-item">
-                            <a href="<?php echo APPURL ?>/cart.php" class="nav-link" data-toggle="" aria-haspopup="true" aria-expanded="false">
+                            <a href="<?php echo APPURL ?>/products/cart.php" class="nav-link" data-toggle="" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-shopping-basket"></i> <span class="badge badge-primary">5</span>
                             </a>
                           

@@ -1,5 +1,5 @@
-<?php require '../includes/header.php'; ?>
-<?php require '../config/config.php'; ?>
+<?php require '../includes/header.php';?>
+<?php require '../config/config.php';?>
 
 <?php
 
@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
 
     // Check if all required fields are filled
     if (!empty($pro_id) && !empty($pro_title) && !empty($pro_image) && !empty($pro_price) && !empty($pro_qty) && !empty($user_id)) {
-        $insert = $conn->prepare("INSERT INTO cart (pro_id, pro_title, pro_image, pro_price, pro_qty, user_id) 
+        $insert = $conn->prepare("INSERT INTO cart (pro_id, pro_title, pro_image, pro_price, pro_qty, user_id)
         VALUES (:pro_id, :pro_title, :pro_image, :pro_price, :pro_qty, :user_id)");
 
         try {
@@ -57,11 +57,10 @@ if (isset($_GET['id'])) {
 }
 
 // validating cart products
-if(isset($_SESSION['user_id'])){
-$validate = $conn->query("SELECT * FROM cart WHERE pro_id='$id' AND user_id = '$_SESSION[user_id]'");
-$validate ->execute();
+if (isset($_SESSION['user_id'])) {
+    $validate = $conn->query("SELECT * FROM cart WHERE pro_id='$id' AND user_id = '$_SESSION[user_id]'");
+    $validate->execute();
 }
-
 
 ?>
 
@@ -96,14 +95,14 @@ $validate ->execute();
                             <?php echo $product->Description ?>
                         </p>
                         <div class="row">
-                            <div class="col-sm-6">  
+                            <div class="col-sm-6">
                                 <p>
                                     <strong>Price</strong> (/Pack)<br>
                               hidden      <span class="price"> $ <?php echo $product->Price ?></span>
                                     <!-- <span class="old-price"> <?php echo $product->price ?></span> -->
                                 </p>
                             </div>
-                           
+
                         </div>
                         <p class="mb-1">
                             <strong>Quantity</strong>
@@ -111,40 +110,40 @@ $validate ->execute();
                         <form method="POST" id="form-data">
                         <div class="row">
                             <div class="col-sm-5">
-                                <!-- <input class="form-control" type="text" name="pro_title"  value="<?php echo $product->Title ?> ""> -->
+
                                 <input class="form-control" type="hidden" name="pro_title" value="<?php echo $product->Title; ?>">
 
                             </div>
-                        
+
                         </div>
                         <div class="row">
                             <div class="col-sm-5">
-                                <input class="form-control" type="hidden" name="pro_id"  value="<?php echo $product->id ?> "">
+                                <input class="form-control" type="hidden" name="pro_id"  value="<?php echo $product->id ?> ">
                             </div>
-                        
+
                         </div>
                         <div class="row">
                             <div class="col-sm-5">
-                                <input class="form-control" type="hidden"name="pro_image"  value="<?php echo $product->image ?> "">
+                                <input class="form-control" type="hidden" name="pro_image"  value="<?php echo $product->image ?> ">
                             </div>
-                        
+
                         </div>
 
                         <div class="row">
                             <div class="col-sm-5">
-                                <input class="form-control" type="hidden" name="pro_price" value="<?php echo $product->Price ?> "">
+                                <input class="form-control" type="hidden" name="pro_price" value="<?php echo $product->Price ?> ">
                             </div>
-                        
+
                         </div>
 
                         <div class="row">
                             <div class="col-sm-5">
                                 <input class="form-control" type="hidden" name="user_id" value="<?php echo $_SESSION['user_id'] ?>" >
                             </div>
-                        
-                        </div> 
 
-                        
+                        </div>
+
+
                         <div class="row">
                             <div class="col-sm-5">
                                 <input class="form-control" type="number" min="1" data-bts-button-down-class="btn btn-primary" data-bts-button-up-class="btn btn-primary" value="<?php echo $product->quantity ?> " name="pro_qty">
@@ -152,29 +151,35 @@ $validate ->execute();
                             <div class="col-sm-6"><span class="pt-1 d-inline-block">Pack  (1000 grams)</span></div>
                         </div>
 
-
-                        <?php if($validate->rowCount() > 0 ): ?> 
+                        <?php if (isset($_SESSION['username'])): ?>
+                        <?php if ($validate->rowCount() > 0): ?>
                             <button name="submit" type="submit" class="btn-insert  mt-3 btn btn-primary btn-lg" disabled >
                             <i class="fa fa-shopping-basket "></i> Added to Cart
                         </button>
-                        <?php else : ?>
+                        <?php else: ?>
                             <button name="submit" type="submit" class="btn-insert  mt-3 btn btn-primary btn-lg">
                             <i class="fa fa-shopping-basket"></i> Add to Cart
                         </button>
-                        <?php endif; ?>
+                        <?php endif;?>
+
+                        <div class='mt-4 alert alert-success bg-success text-white text-center'>
+                                        Login to add products to Cart
+                                    </div>
+                                    <?php endif;?>
+
                         </form>
                     </div>
                 </div>
             </div>
         </div>
 
-        <section id="related-product">   
+        <section id="related-product">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
                         <h2 class="title">Related Products</h2>
                         <div class="product-carousel owl-carousel">
-                            <?php foreach($allRelatedProducts as $prodcts ):  ?>
+                            <?php foreach ($allRelatedProducts as $prodcts): ?>
                             <div class="item">
                                 <div class="card card-product">
                                     <div class="card-ribbon">
@@ -185,7 +190,7 @@ $validate ->execute();
                                     <div class="card-badge">
                                         <div class="card-badge-container left">
                                             <span class="badge badge-default">
-                                                Until <?php echo $prodcts-> exp_date ?>
+                                                Until <?php echo $prodcts->exp_date ?>
                                             </span>
                                             <span class="badge badge-primary">
                                                 20% OFF
@@ -199,17 +204,17 @@ $validate ->execute();
                                         </h4>
                                         <div class="card-price">
                                             <!-- <span class="discount">Rp. 300.000</span> -->
-                                            <span class="reguler">$ <?php echo  $prodcts -> Price ?></span>
+                                            <span class="reguler">$ <?php echo $prodcts->Price ?></span>
                                         </div>
-                                        <a href="<?php echo APPURL;?>/products/detail-product.php?id=<?php echo $prodcts->id;?> " class=" btn-insert btn btn-block btn-primary">
+                                        <a href="<?php echo APPURL; ?>/products/detail-product.php?id=<?php echo $prodcts->id; ?> " class=" btn-insert btn btn-block btn-primary">
                                             Add to Cart
                                         </a>
 
                                     </div>
                                 </div>
                             </div>
-                            <?php endforeach; ?>
-                            
+                            <?php endforeach;?>
+
                         </div>
                     </div>
                 </div>
@@ -219,7 +224,7 @@ $validate ->execute();
     </div>
 
 
-    <?php require '../includes/footer.php' ?>
+    <?php require '../includes/footer.php'?>
 
 
 <script>
@@ -248,4 +253,4 @@ $validate ->execute();
        })
 
    })
-</script> 
+</script>
