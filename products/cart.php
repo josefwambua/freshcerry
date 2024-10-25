@@ -55,7 +55,7 @@ $allProducts = $products->fetchAll(PDO::FETCH_OBJ);
                                                 <a href="#" class="btn btn-primary">UPDATE</a>
                                             </td>
                                             <td class="total_price">
-                                                $ <?php echo $product->pro_price * $product->pro_qty; ?>
+                                                <?php echo $product->pro_price * $product->pro_qty; ?>
                                             </td>
                                             <td>
                                                 <a href="javascript:void(0)" class="text-danger"><i class="fa fa-times"></i></a>
@@ -100,7 +100,7 @@ $allProducts = $products->fetchAll(PDO::FETCH_OBJ);
 
             if (!isNaN(pro_qty) && !isNaN(pro_price)) {
                 var total = pro_qty * pro_price;
-                $el.find(".total_price").html( '$' + total );
+                $el.find(".total_price").html(+ '$' + total );
             } else {
                 $el.find(".total_price").html("Invalid Input");
             }
