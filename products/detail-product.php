@@ -6,8 +6,7 @@
 // Ensure the database connection throws exceptions
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-// Handle the POST request for adding to cart
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $pro_id = $_POST['pro_id'];
     $pro_title = $_POST['pro_title'];
     $pro_image = $_POST['pro_image'];
@@ -16,13 +15,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     $pro_subtotal = $_POST['pro_subtotal'];
     $user_id = $_POST['user_id'];
 
-    // Check if all required fields are filled
     if (!empty($pro_id) && !empty($pro_title) && !empty($pro_image) && !empty($pro_price) && !empty($pro_qty) && !empty($pro_subtotal) && !empty($user_id)) {
-        $insert = $conn->prepare("INSERT INTO cart (pro_id, pro_title, pro_image, pro_price, pro_qty, pro_subtotal, user_id)
-        VALUES (:pro_id, :pro_title, :pro_image, :pro_price, :pro_qty, :pro_subtotal, :user_id)");
-
         try {
-            $insert->execute([
+            $stmt = $conn->prepare("INSERT INTO cart (pro_id, pro_title, pro_image, pro_price, pro_qty, pro_subtotal, user_id)
+            VALUES (:pro_id, :pro_title, :pro_image, :pro_price, :pro_qty, :pro_subtotal, :user_id)");
+            
+            $stmt->execute([
                 ':pro_id' => $pro_id,
                 ':pro_title' => $pro_title,
                 ':pro_image' => $pro_image,
@@ -31,19 +29,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                 ':pro_subtotal' => $pro_subtotal,
                 ':user_id' => $user_id,
             ]);
-            // Fetch the last inserted ID if needed
-            $lastInsertId = $conn->lastInsertId();
-            echo json_encode(['status' => 'success', 'message' => 'Product added successfully']);
-            exit;
+
+            if ($stmt->rowCount() > 0) {
+                echo json_encode(['status' => 'success', 'message' => 'Product added successfully']);
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Failed to add product']);
+            }
         } catch (PDOException $e) {
             echo json_encode(['status' => 'error', 'message' => 'Error: ' . $e->getMessage()]);
-            exit;
         }
     } else {
         echo json_encode(['status' => 'error', 'message' => 'One or more fields are empty']);
-        exit;
     }
 }
+
 
 // Fetch product details if an ID is provided
 if (isset($_GET['id'])) {
@@ -248,12 +247,12 @@ if (isset($_SESSION['user_id']) && isset($_GET['id'])) {
            var  form_data =  $("#form-data").serialize()+ '&submit=submit';
 
            $.ajax({
-               url: "detail-product.php?id<?php echo $id ?>",
-               method:"POST",
+               url: "detail-product.php?id=<?php echo $id; ?>",
+               method:"post",
                data: form_data,
                success: function(){
                    alert('Product added succesfully');
-                   $(".btn-insert").html("<i class='fa fa-shopping-basket'></i> Added to cart").prop("disabled", true);
+                   $(".btn-insert").html("<i class='fa fa-shopping-basket'></i> Added to cart").prop("disabled", true); 
 
 
                }
@@ -275,7 +274,7 @@ if (isset($_SESSION['user_id']) && isset($_GET['id'])) {
                     $el.find(".subtotal_price").val("");        
   
                     $el.find(".subtotal_price").val(subtotal);
-              })
+              });
   
 
    })

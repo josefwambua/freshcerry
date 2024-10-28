@@ -18,7 +18,7 @@ $allProducts = $products->fetchAll(PDO::FETCH_OBJ);
     </div>
 
     <section id="cart">
-        <div class="container">
+        <div class="container"> 
             <div class="row">
                 <div class="col-md-12"> 
                     <div class="table-responsive">
@@ -35,13 +35,13 @@ $allProducts = $products->fetchAll(PDO::FETCH_OBJ);
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php if (count($allProducts) > 0): ?>
-                                    <?php foreach ($allProducts as $product): ?>
+                                <?php if (count($allProducts) > 0) : ?>
+                                    <?php foreach ($allProducts as $product) : ?>
                                         <tr>
                                             <td>
                                                 <img src="<?php echo APPURL; ?>/assets/img/<?php echo $product->pro_image; ?>" width="60">
                                             </td>
-                                            <td>
+                                            <td> 
                                                 <?php echo $product->pro_title; ?><br>
                                                 <small>1000g</small>
                                             </td>
@@ -62,7 +62,7 @@ $allProducts = $products->fetchAll(PDO::FETCH_OBJ);
                                             </td>
                                         </tr>  
                                     <?php endforeach; ?>
-                                <?php else: ?>
+                                <?php else : ?>
                                     <div class='alert alert-success bg-success text-white text-center'>
                                         No products in cart
                                     </div>
@@ -87,7 +87,7 @@ $allProducts = $products->fetchAll(PDO::FETCH_OBJ);
 <?php require '../includes/footer.php'; ?>
 <script>
     $(document).ready(function() {
-        $(".form-control").keyup(function(){
+        $(".form-contr ol").keyup(function(){
             var value = $(this).val();
             value = value.replace(/^(0*)/, "");
             $(this).val(value || 1); // Set to 1 if empty or invalid
