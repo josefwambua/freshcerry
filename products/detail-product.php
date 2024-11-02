@@ -1,12 +1,11 @@
 <?php require '../includes/header.php';?>
 <?php require '../config/config.php';?>
-
 <?php
 
 // Ensure the database connection throws exceptions
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if (isset($_POST['submit'])) {
     $pro_id = $_POST['pro_id'];
     $pro_title = $_POST['pro_title'];
     $pro_image = $_POST['pro_image'];
@@ -17,9 +16,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (!empty($pro_id) && !empty($pro_title) && !empty($pro_image) && !empty($pro_price) && !empty($pro_qty) && !empty($pro_subtotal) && !empty($user_id)) {
         try {
-            $stmt = $conn->prepare("INSERT INTO cart (pro_id, pro_title, pro_image, pro_price, pro_qty, pro_subtotal, user_id)
-            VALUES (:pro_id, :pro_title, :pro_image, :pro_price, :pro_qty, :pro_subtotal, :user_id)");
-            
+            $stmt = $conn->prepare("INSERT INTO cart (pro_id, pro_title, pro_image, pro_price, pro_qty, pro_subtotal, user_id) VALUES (:pro_id, :pro_title, :pro_image, :pro_price, :pro_qty, :pro_subtotal, :user_id)");
+
             $stmt->execute([
                 ':pro_id' => $pro_id,
                 ':pro_title' => $pro_title,
@@ -29,20 +27,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 ':pro_subtotal' => $pro_subtotal,
                 ':user_id' => $user_id,
             ]);
-
-            if ($stmt->rowCount() > 0) {
-                echo json_encode(['status' => 'success', 'message' => 'Product added successfully']);
-            } else {
-                echo json_encode(['status' => 'error', 'message' => 'Failed to add product']);
-            }
         } catch (PDOException $e) {
-            echo json_encode(['status' => 'error', 'message' => 'Error: ' . $e->getMessage()]);
+            echo "Error: " . $e->getMessage();
         }
     } else {
-        echo json_encode(['status' => 'error', 'message' => 'One or more fields are empty']);
+        echo "All fields are required.";
     }
 }
-
 
 // Fetch product details if an ID is provided
 if (isset($_GET['id'])) {
@@ -97,7 +88,7 @@ if (isset($_SESSION['user_id']) && isset($_GET['id'])) {
                             <div class="col-sm-6">
                                 <p>
                                     <strong>Price</strong> (/Pack)<br>
-                              hidden      <span class="price"> $ <?php echo $product->Price ?></span>
+                               <span class="price"> $ <?php echo $product->Price ?></span>
                                     <!-- <span class="old-price"> <?php echo $product->price ?></span> -->
                                 </p>
                             </div>
@@ -145,7 +136,7 @@ if (isset($_SESSION['user_id']) && isset($_GET['id'])) {
 
                         <div class="row">
                             <div class="col-sm-5">
-                                <input class="pro_qty form-control" type="number" min="1" data-bts-button-down-class="btn btn-primary" data-bts-button-up-class="btn btn-primary" value="<?php echo $product->quantity ?> " name="pro_qty">
+                                <input class="pro_qty form-control" type="number" min="1" data-bts-button-down-class="btn btn-primary" data-bts-button-up-class="btn btn-primary" value="<?php echo $product->Quantity ?> " name="pro_qty">
                             </div>
                             <div class="col-sm-6"><span class="pt-1 d-inline-block">Pack  (1000 grams)</span></div>
                         </div>
@@ -153,7 +144,7 @@ if (isset($_SESSION['user_id']) && isset($_GET['id'])) {
 
                         <div class="row">
                             <div class="col-sm-5">
-                                <input class="subtotal_price form-control" type="pro_subtotal" name=""  value="<?php echo $product->price * $product->quantity ?> ">
+                                <input class="subtotal_price form-control"  name="pro_subtotal"  value="<?php echo $product->Price * $product->Quantity ?> ">
                             </div>
 
                         </div>
@@ -162,19 +153,18 @@ if (isset($_SESSION['user_id']) && isset($_GET['id'])) {
                             <button name="submit" type="submit" class="btn-insert  mt-3 btn btn-primary btn-lg" disabled >
                             <i class="fa fa-shopping-basket "></i> Added to Cart
                         </button>
-                        <?php else: ?>
+                     <?php else: ?>
                             <button name="submit" type="submit" class="btn-insert  mt-3 btn btn-primary btn-lg">
                             <i class="fa fa-shopping-basket"></i> Add to Cart
                         </button>
-                        <?php endif; ?>
+                        <?php endif;?>
                         <?php else: ?>
-
                         <div class='mt-4 alert alert-success bg-success text-white text-center'>
                                         Login to add products to Cart
                                     </div>
                         <?php endif;?>
 
-                        </form>
+                        </form >
                     </div>
                 </div>
             </div>
@@ -235,47 +225,50 @@ if (isset($_SESSION['user_id']) && isset($_GET['id'])) {
 
 
 <script>
-   $(document).ready(function(){
-       $(".form-control").keyup(function(){
-           var value = $(this).val();
-           value = value.replace(/^(0*)/,"");
-           $(this).val(1);
-       });
-       $(".btn-insert").on("click", function(e){
-           e.preventDefault();
+  $(document).ready(function(){
+    $(".form-control").keyup(function(){
+        var value = $(this).val();
+        value = value.replace(/^(0*)/, ""); // Removes leading zeros
+        $(this).val(value); // Set the cleaned value back
+    });
 
-           var  form_data =  $("#form-data").serialize()+ '&submit=submit';
+    $(".btn-insert").on("click", function(e){
+        e.preventDefault();
 
-           $.ajax({
-               url: "detail-product.php?id=<?php echo $id; ?>",
-               method:"post",
-               data: form_data,
-               success: function(){
-                   alert('Product added succesfully');
-                   $(".btn-insert").html("<i class='fa fa-shopping-basket'></i> Added to cart").prop("disabled", true); 
+        var form_data = $("#form-data").serialize() + '&submit=submit';
 
-
-               }
-           });
-
-       });
+        $.ajax({
+            url: "detail-product.php?id=<?php echo $id; ?>",
+            method: "POST",
+            data: form_data,
+            success: function(response){
+                alert('Product added successfully');
+                $(".btn-insert").html("<i class='fa fa-shopping-basket'></i> Added to cart").prop("disabled", true);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert('Error: ' + textStatus + ' - ' + errorThrown);
+            }
+        });
+    });
+});
+     
        $(".pro_qty").mouseup(function () {
-                  
-                 
+
+
 
                   var $el = $(this).closest('form');
-  
-  
+
+
                     var pro_qty = $el.find(".pro_qty").val();
                     var pro_price = $el.find(".pro_price").val();
-                      
+
                     var subtotal = pro_qty * pro_price;
                     //alert(subtotal);
-                    $el.find(".subtotal_price").val("");        
-  
+                    $el.find(".subtotal_price").val("");
+
                     $el.find(".subtotal_price").val(subtotal);
               });
-  
 
-   })
+
+
 </script>

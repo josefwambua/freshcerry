@@ -49,12 +49,12 @@ $allProducts = $products->fetchAll(PDO::FETCH_OBJ);
                                                 <?php echo $product->pro_price; ?>
                                             </td>
                                             <td>
-                                                <input class="pro_qty form-control" type="number" min="1" value="1" name="vertical-spin">
+                                                <input class="pro_qty form-control" type="number" min="1" value="<?php echo $product->pro_qty; ?>" name="vertical-spin">
                                             </td>
                                             <td>
-                                                <a href="#" class="btn btn-primary">UPDATE</a>
+                                                <a href="#" class="btn btn-primary update-btn">UPDATE</a>
                                             </td>
-                                            <td class="total_price">
+                                            <td class="subtotal">
                                                 <?php echo $product->pro_price * $product->pro_qty; ?>
                                             </td>
                                             <td>
@@ -71,12 +71,14 @@ $allProducts = $products->fetchAll(PDO::FETCH_OBJ);
                         </table>
                     </div>
                 </div>
+
                 <div class="col">
                     <a href="<?php echo APPURL; ?>/shop.php" class="btn btn-default">Continue Shopping</a>
                 </div>
+
                 <div class="col text-right">
                     <div class="clearfix"></div>
-                    <h6 class="mt-3">Total: Rp 180.000</h6>
+                    <h6 class="mt-3">Total: <span id="total-amount">Rp 180.000</span></h6>
                     <a href="checkout.html" class="btn btn-lg btn-primary">Checkout <i class="fa fa-long-arrow-right"></i></a>
                 </div>
             </div>
@@ -85,25 +87,27 @@ $allProducts = $products->fetchAll(PDO::FETCH_OBJ);
 </div>
 
 <?php require '../includes/footer.php'; ?>
+
 <script>
-    $(document).ready(function() {
-        $(".form-contr ol").keyup(function(){
-            var value = $(this).val();
-            value = value.replace(/^(0*)/, "");
-            $(this).val(value || 1); // Set to 1 if empty or invalid
-        });
+$(document).ready(function() {
+    $(".pro_qty").on("change keyup", function() {
+        var $el = $(this).closest('tr');
+        var pro_qty = parseFloat($(this).val()) || 0; // Use 0 if the value is NaN
+        var pro_price = parseFloat($el.find(".pro_price").text()) || 0; // Use 0 if the value is NaN
+        var subtotal = pro_qty * pro_price;
 
-        $(".pro_qty").on('input', function () {
-            var $el = $(this).closest('tr');
-            var pro_qty = parseFloat($el.find(".pro_qty").val());
-            var pro_price = parseFloat($el.find(".pro_price").html());
+        $el.find(".subtotal").text(subtotal.toFixed(2)); // Update the subtotal cell
 
-            if (!isNaN(pro_qty) && !isNaN(pro_price)) {
-                var total = pro_qty * pro_price;
-                $el.find(".total_price").html(+ '$' + total );
-            } else {
-                $el.find(".total_price").html("Invalid Input");
-            }
-        });
+        // Update the total amount
+        updateTotal();
     });
+
+    function updateTotal() {
+        var total = 0;
+        $(".subtotal").each(function() {
+            total += parseFloat($(this).text()) || 0; // Use 0 if the value is NaN
+        });
+        $("#total-amount").text("Rp " + total.toFixed(2)); // Update the total display
+    }
+});
 </script>
