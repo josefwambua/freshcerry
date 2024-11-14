@@ -52,7 +52,7 @@ $allProducts = $products->fetchAll(PDO::FETCH_OBJ);
                                                 <input class="pro_qty form-control" type="number" min="1" value="<?php echo $product->pro_qty; ?>" name="vertical-spin">
                                             </td>
                                             <td>
-                                                <a href="#" class="btn btn-primary update-btn">UPDATE</a>
+                                                <button value="<?php echo $product->id; ?>" class="btn-update btn btn-primary update-btn">UPDATE</button>
                                             </td>
                                             <td class="subtotal">
                                                 <?php echo $product->pro_price * $product->pro_qty; ?>
@@ -109,5 +109,37 @@ $(document).ready(function() {
         });
         $("#total-amount").text("Rp " + total.toFixed(2)); // Update the total display
     }
+
+    $(".btn-update").on('click', function(e) {
+    // Get the product ID from the button's value
+    var id = $(this).val();
+    
+    // Get the updated quantity and subtotal
+    var $el = $(this).closest('tr'); // Find the closest row (tr)
+    var pro_qty = parseFloat($el.find(".pro_qty").val()) || 0; // Get the updated quantity from the input
+    var subtotal = parseFloat($el.find(".subtotal").text()) || 0; // Get the updated subtotal from the text
+
+    // Send the updated data via AJAX
+    $.ajax({
+        type: "POST", // Corrected syntax error: type should be ':', not '='
+        url: "update-product.php",
+        data: {
+            update: "update",
+            id: id,
+            pro_qty: pro_qty,
+            subtotal: subtotal
+        },
+        success: function(response) {
+            alert("Update Successful");
+            // Optionally, reload the page
+            location.reload(); // Use this to reload the page after the update
+            // Alternatively, you can fetch the updated data or update the DOM without reloading
+        }
+    });
+});
+
+// Uncomment if you want to use fetch() later
+// fetch();
+
 });
 </script>
