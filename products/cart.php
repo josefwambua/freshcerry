@@ -58,7 +58,7 @@ $allProducts = $products->fetchAll(PDO::FETCH_OBJ);
                                                 <?php echo $product->pro_price * $product->pro_qty; ?>
                                             </td>
                                             <td>
-                                                <a href="javascript:void(0)" class="text-danger"><i class="fa fa-times"></i></a>
+                                                <button value="<?php echo $product->id; ?>" class="btn-delete btn btn-primary">Delete</button>
                                             </td>
                                         </tr>  
                                     <?php endforeach; ?>
@@ -138,8 +138,27 @@ $(document).ready(function() {
     });
 });
 
-// Uncomment if you want to use fetch() later
-// fetch();
+$(".btn-delete").on('click', function(e) {
+    // Get the product ID from the button's value
+    var id = $(this).val();
+
+    // Send the deleted data via AJAX
+    $.ajax({
+        type: "POST", 
+        url: "delete-product.php",
+        data: {
+            delete: "delete",
+            id: id,
+        },
+        success: function(response) {
+            alert("Product deleted Successful");
+            location.reload(); 
+        }
+    });
+});
+function reload() {
+    $("body").load("cart.php");
+}
 
 });
 </script>
