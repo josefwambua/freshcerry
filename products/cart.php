@@ -78,7 +78,7 @@ $allProducts = $products->fetchAll(PDO::FETCH_OBJ);
 
                 <div class="col text-right">
                     <div class="clearfix"></div>
-                    <h6 class="mt-3">Total: <span id="total-amount">Rp 180.000</span></h6>
+                    <h6 class="full price mt-3">Total: <span id="total-amount"></span></h6>
                     <a href="checkout.html" class="btn btn-lg btn-primary">Checkout <i class="fa fa-long-arrow-right"></i></a>
                 </div>
             </div>
@@ -107,7 +107,7 @@ $(document).ready(function() {
         $(".subtotal").each(function() {
             total += parseFloat($(this).text()) || 0; // Use 0 if the value is NaN
         });
-        $("#total-amount").text("Rp " + total.toFixed(2)); // Update the total display
+        $("#total-amount").text("$ " + total.toFixed(2)); // Update the total display
     }
 
     $(".btn-update").on('click', function(e) {
@@ -156,6 +156,8 @@ $(".btn-delete").on('click', function(e) {
         }
     });
 });
+
+
 function reload() {
     $("body").load("cart.php");
 }
