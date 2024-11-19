@@ -1,10 +1,25 @@
 
-<?php 
-session_start();
+<?php session_start(); ?>
+<?php
+require $_SERVER['DOCUMENT_ROOT'] . '/freshcerry/config/config.php';
+?>
+
+
+<?php
+
 define("APPURL", "http://127.0.0.1/freshcerry");
 
 
+// fetching cart total
+$query = 'SELECT COUNT(*) AS num_products FROM cart WHERE user_id = :id';
+$stmt = $conn->prepare($query);
+$stmt->bindParam(':id', $id, PDO::PARAM_INT);
+$stmt->execute();
+$num = $stmt->fetch(PDO::FETCH_OBJ);
+
+
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -70,7 +85,7 @@ define("APPURL", "http://127.0.0.1/freshcerry");
                           </li>
                         <li class="nav-item">
                             <a href="<?php echo APPURL ?>/products/cart.php" class="nav-link" data-toggle="" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-shopping-basket"></i> <span class="badge badge-primary">5</span>
+                                <i class="fa fa-shopping-basket"></i> <span class="badge badge-primary"><?php echo $num-> num_products ?> </span>
                             </a>
                           
                         </li>

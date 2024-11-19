@@ -9,16 +9,16 @@
 
     try{
     // host 
-    define("HOST", "localhost");
+    if(!defined("HOST"))define("HOST", "localhost");
 
     // dbname
-    define("DBNAME", "freshcerry");
+    if(!defined("DBNAME"))define("DBNAME", "freshcerry");
 
     // user 
-    define("USER", "root");
+    if(!defined("USER"))define("USER", "root");
 
     // password
-    define("PASS", "");
+    if(!defined("PASS"))define("PASS", "");
 
 
     $conn = new PDO("mysql:host=".HOST."; dbname=".DBNAME.";",USER,PASS);
