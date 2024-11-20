@@ -85,5 +85,7 @@ Explore our website for seasonal ingredients and culinary inspiration. At FreshC
     <script type="text/javascript" src="<?php echo APPURL ?>/assets/packages/thumbelina/thumbelina.js"></script>
     <script type="text/javascript" src="<?php echo APPURL ?>/assets/packages/bootstrap-touchspin/bootstrap-touchspin.js"></script>
     <script type="text/javascript" src="<?php echo APPURL ?>/assets/js/theme.js"></script>
+
+
 </body>
 </html>

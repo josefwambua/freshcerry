@@ -7,6 +7,8 @@ $products->execute();
 $allProducts = $products->fetchAll(PDO::FETCH_OBJ);
 ?>
 
+
+
 <div id="page-content" class="page-content">
     <div class="banner">
         <div class="jumbotron jumbotron-bg text-center rounded-0" style="background-image: url('<?php echo APPURL; ?>/assets/img/bg-header.jpg');">
@@ -77,9 +79,10 @@ $allProducts = $products->fetchAll(PDO::FETCH_OBJ);
                 </div>
 
                 <div class="col text-right">
-                    <div class="clearfix"></div>
-                    <h6 class="full price mt-3">Total: <span id="total-amount"></span></h6>
-                    <a href="checkout.html" class="btn btn-lg btn-primary">Checkout <i class="fa fa-long-arrow-right"></i></a>
+                    <!-- <div class="clearfix"></div>
+                    <h6 class="full price mt-3">Total: <span id="total-amount"></span></h6> -->
+                    <button class="intaSendPayButton" data-amount="10" data-currency="KES">Pay Now</button>
+                    <!-- <a href="" class="btn btn-lg btn-primary">Checkout <i class="fa fa-long-arrow-right"></i></a> -->
                 </div>
             </div>
         </div>
@@ -89,6 +92,8 @@ $allProducts = $products->fetchAll(PDO::FETCH_OBJ);
 <?php require '../includes/footer.php'; ?>
 
 <script>
+
+
 $(document).ready(function() {
     $(".pro_qty").on("change keyup", function() {
         var $el = $(this).closest('tr');
@@ -103,7 +108,8 @@ $(document).ready(function() {
     });
 
     function updateTotal() {
-        var total = 0;
+        var tot//intasend
+al = 0;
         $(".subtotal").each(function() {
             total += parseFloat($(this).text()) || 0; // Use 0 if the value is NaN
         });
@@ -163,4 +169,7 @@ function reload() {
 }
 
 });
+
+
 </script>
+
