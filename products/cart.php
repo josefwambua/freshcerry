@@ -7,8 +7,6 @@ $products->execute();
 $allProducts = $products->fetchAll(PDO::FETCH_OBJ);
 ?>
 
-
-
 <div id="page-content" class="page-content">
     <div class="banner">
         <div class="jumbotron jumbotron-bg text-center rounded-0" style="background-image: url('<?php echo APPURL; ?>/assets/img/bg-header.jpg');">
@@ -60,6 +58,7 @@ $allProducts = $products->fetchAll(PDO::FETCH_OBJ);
                                                 <?php echo $product->pro_price * $product->pro_qty; ?>
                                             </td>
                                             <td>
+                                                <a href="javascript:void(0)" class="text-danger"><i class="fa fa-times"></i></a>
                                                 <button value="<?php echo $product->id; ?>" class="btn-delete btn btn-primary">Delete</button>
                                             </td>
                                         </tr>  
@@ -79,47 +78,14 @@ $allProducts = $products->fetchAll(PDO::FETCH_OBJ);
                 </div>
 
                 <div class="col text-right">
-                    <!-- <div class="clearfix"></div>
-                    <h6 class="full price mt-3">Total: <span id="total-amount"></span></h6> -->
-                    <button class="intaSendPayButton" data-amount="10" data-currency="KES">Pay Now</button>
-                    <!-- <a href="" class="btn btn-lg btn-primary">Checkout <i class="fa fa-long-arrow-right"></i></a> -->
+                    <div class="clearfix"></div>
+                    <h6 class="mt-3">Total: <span id="total-amount">Rp 180.000</span></h6>
+                    <a href="checkout.html" class="btn btn-lg btn-primary">Checkout <i class="fa fa-long-arrow-right"></i></a>
                 </div>
             </div>
         </div>
-    </section>
-</div>
-
-<?php require '../includes/footer.php'; ?>
-
+</section>
 <script>
-
-
-$(document).ready(function() {
-    $(".pro_qty").on("change keyup", function() {
-        var $el = $(this).closest('tr');
-        var pro_qty = parseFloat($(this).val()) || 0; // Use 0 if the value is NaN
-        var pro_price = parseFloat($el.find(".pro_price").text()) || 0; // Use 0 if the value is NaN
-        var subtotal = pro_qty * pro_price;
-
-        $el.find(".subtotal").text(subtotal.toFixed(2)); // Update the subtotal cell
-
-        // Update the total amount
-        updateTotal();
-    });
-
-    function updateTotal() {
-        var tot//intasend
-al = 0;
-        $(".subtotal").each(function() {
-            total += parseFloat($(this).text()) || 0; // Use 0 if the value is NaN
-        });
-        $("#total-amount").text("$ " + total.toFixed(2)); // Update the total display
-    }
-
-    $(".btn-update").on('click', function(e) {
-    // Get the product ID from the button's value
-    var id = $(this).val();
-    
     // Get the updated quantity and subtotal
     var $el = $(this).closest('tr'); // Find the closest row (tr)
     var pro_qty = parseFloat($el.find(".pro_qty").val()) || 0; // Get the updated quantity from the input
@@ -144,10 +110,11 @@ al = 0;
     });
 });
 
+// Uncomment if you want to use fetch() later
+// fetch();
 $(".btn-delete").on('click', function(e) {
     // Get the product ID from the button's value
     var id = $(this).val();
-
     // Send the deleted data via AJAX
     $.ajax({
         type: "POST", 
@@ -162,14 +129,10 @@ $(".btn-delete").on('click', function(e) {
         }
     });
 });
-
-
 function reload() {
     $("body").load("cart.php");
 }
 
 });
-
-
 </script>
 
