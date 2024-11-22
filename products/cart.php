@@ -79,10 +79,8 @@ $allProducts = $products->fetchAll(PDO::FETCH_OBJ);
                 </div>
 
                 <div class="col text-right">
-                    <!-- <div class="clearfix"></div>
-                    <h6 class="full price mt-3">Total: <span id="total-amount"></span></h6> -->
-                    <button class="intaSendPayButton" data-amount="10" data-currency="KES">Pay Now</button>
-                    <!-- <a href="" class="btn btn-lg btn-primary">Checkout <i class="fa fa-long-arrow-right"></i></a> -->
+                    <h6 class="mt-3">Total: <span id="total-amount">Rp 180.000</span></h6>
+                    <a href="checkout.html" class="btn btn-lg btn-primary">Checkout <i class="fa fa-long-arrow-right"></i></a>
                 </div>
             </div>
         </div>
@@ -92,83 +90,73 @@ $allProducts = $products->fetchAll(PDO::FETCH_OBJ);
 <?php require '../includes/footer.php'; ?>
 
 <script>
-
-
 $(document).ready(function() {
+    // Event listener for when quantity is changed
     $(".pro_qty").on("change keyup", function() {
-        var $el = $(this).closest('tr');
-        var pro_qty = parseFloat($(this).val()) || 0; // Use 0 if the value is NaN
-        var pro_price = parseFloat($el.find(".pro_price").text()) || 0; // Use 0 if the value is NaN
-        var subtotal = pro_qty * pro_price;
+        var $el = $(this).closest('tr'); // Get the closest row (tr)
+        var pro_qty = parseFloat($(this).val()) || 0; // Get the quantity, default to 0 if invalid
+        var pro_price = parseFloat($el.find(".pro_price").text()) || 0; // Get the price, default to 0 if invalid
+        var subtotal = pro_qty * pro_price; // Calculate the subtotal
 
-        $el.find(".subtotal").text(subtotal.toFixed(2)); // Update the subtotal cell
+        // Update the subtotal display for the row
+        $el.find(".subtotal").text(subtotal.toFixed(2));
 
         // Update the total amount
         updateTotal();
     });
 
+    // Function to calculate and update the total price
     function updateTotal() {
-        var tot//intasend
-al = 0;
+        var total = 0; // Initialize total
         $(".subtotal").each(function() {
-            total += parseFloat($(this).text()) || 0; // Use 0 if the value is NaN
+            total += parseFloat($(this).text()) || 0; // Add the value of each subtotal, default to 0 if NaN
         });
-        $("#total-amount").text("$ " + total.toFixed(2)); // Update the total display
+        // Update the total display
+        $("#total-amount").text("$ " + total.toFixed(2));
     }
 
+    // Event listener for update button
     $(".btn-update").on('click', function(e) {
-    // Get the product ID from the button's value
-    var id = $(this).val();
-    
-    // Get the updated quantity and subtotal
-    var $el = $(this).closest('tr'); // Find the closest row (tr)
-    var pro_qty = parseFloat($el.find(".pro_qty").val()) || 0; // Get the updated quantity from the input
-    var subtotal = parseFloat($el.find(".subtotal").text()) || 0; // Get the updated subtotal from the text
+        var id = $(this).val(); // Get the product ID
+        var $el = $(this).closest('tr'); // Find the closest row (tr)
+        var pro_qty = parseFloat($el.find(".pro_qty").val()) || 0; // Get the updated quantity
+        var subtotal = parseFloat($el.find(".subtotal").text()) || 0; // Get the updated subtotal
 
-    // Send the updated data via AJAX
-    $.ajax({
-        type: "POST", // Corrected syntax error: type should be ':', not '='
-        url: "update-product.php",
-        data: {
-            update: "update",
-            id: id,
-            pro_qty: pro_qty,
-            subtotal: subtotal
-        },
-        success: function(response) {
-            alert("Update Successful");
-            // Optionally, reload the page
-            location.reload(); // Use this to reload the page after the update
-            // Alternatively, you can fetch the updated data or update the DOM without reloading
-        }
+        // Send updated data via AJAX to update the cart in the backend
+        $.ajax({
+            type: "POST", // Corrected method
+            url: "update-product.php",
+            data: {
+                update: "update",
+                id: id,
+                pro_qty: pro_qty,
+                subtotal: subtotal
+            },
+            success: function(response) {
+                alert("Update Successful");
+                location.reload(); // Reload the page to reflect updates
+            }
+        });
     });
-});
 
-$(".btn-delete").on('click', function(e) {
-    // Get the product ID from the button's value
-    var id = $(this).val();
+    // Event listener for delete button
+    $(".btn-delete").on('click', function(e) {
+        var id = $(this).val(); // Get the product ID
 
-    // Send the deleted data via AJAX
-    $.ajax({
-        type: "POST", 
-        url: "delete-product.php",
-        data: {
-            delete: "delete",
-            id: id,
-        },
-        success: function(response) {
-            alert("Product deleted Successful");
-            location.reload(); 
-        }
+        // Send delete request via AJAX to remove product from the cart
+        $.ajax({
+            type: "POST", 
+            url: "delete-product.php",
+            data: {
+                delete: "delete",
+                id: id,
+            },
+            success: function(response) {
+                alert("Product deleted successfully");
+                location.reload(); // Reload the page after deletion
+            }
+        });
     });
-});
-
-
-function reload() {
-    $("body").load("cart.php");
-}
 
 });
-
-
 </script>

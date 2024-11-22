@@ -38,8 +38,7 @@ $num = $stmt->fetch(PDO::FETCH_OBJ);
     <link rel="stylesheet" type="text/css" media="all" href="<?php echo APPURL?>/assets/packages/thumbelina/thumbelina.css">
     <link rel="stylesheet" type="text/css" media="all" href="<?php echo APPURL?>/assets/packages/bootstrap-touchspin/bootstrap-touchspin.css">
     <link rel="stylesheet" type="text/css" media="all" href="<?php echo APPURL?>/assets/css/theme.css">
-    <script src="https://unpkg.com/intasend-inlinejs-sdk@4.0.5/build/intasend-inline.js"></script>
-
+   
 </head>
 <body>
     <div class="page-header">
