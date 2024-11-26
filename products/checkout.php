@@ -1,7 +1,5 @@
-<?php include "includes/header.php";
-require "config/config.php"
-
-?>
+<?php require '../includes/header.php'; ?>
+<?php require '../config/config.php'; ?>
 <body>
     <div class="page-header">
         <!--=============== Navbar ===============-->
@@ -253,5 +251,5 @@ require "config/config.php"
             </div>
         </section>
     </div>
-    <?php require  "includes/footer.php"
-    ?>
+
+    <?php require '../includes/footer.php'; ?>
